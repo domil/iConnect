@@ -18,8 +18,8 @@ const contentSchema = new Schema({
   date: { type: Date, default: Date.now },
   status: {
     type: String,
-    enum: ["Open", "Blocked"],
-    default: "Open",
+    enum: ["allow", "blocked"],
+    default: "allow",
   },
 });
 
