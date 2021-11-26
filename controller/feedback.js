@@ -7,7 +7,7 @@ const getFeedback = async (req, res) => {
         const query = {teacherid:teacherid}
         console.log('getFeedback:: query ', query);
         let feedbacks = await Feedback.find(query);
-        res.status(200).send(feedbacks);
+        res.status(200).json({success:true, data: feedbacks});
     }catch(err){
         console.log('error is ', err);
         res.send('Something went wrong');

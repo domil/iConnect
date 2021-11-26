@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
-const {feedbackRouter} = require('./routes');
+const {feedbackRouter,contentRouter} = require('./routes');
+const { filters } = require('./config');
 
 require('./db');
 
@@ -11,10 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.use('/feedback', feedbackRouter)
-
+app.use('/content', contentRouter)
 
 app.get('/', (req,res)=>{
     res.send('Server is up and running');
+})
+
+app.get('/filter',(req,res)=>{
+    res.status(200).json({success:true, data: filters})
 })
 
 
