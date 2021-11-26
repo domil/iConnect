@@ -5,9 +5,9 @@ const { Schema } = mongoose;
 const contentSchema = new Schema({
   classid: Number,
   subjectid: Number,
-  teacherid: Number,
+  teacher: { type: Schema.Types.ObjectId, ref: "User" },
   unitid: Number,
-  type:  {
+  type: {
     type: String,
     enum: ["image", "text"],
     default: "text",
@@ -20,7 +20,7 @@ const contentSchema = new Schema({
     type: String,
     enum: ["Open", "Blocked"],
     default: "Open",
-  }
+  },
 });
 
 const Content = mongoose.model("Content", contentSchema);

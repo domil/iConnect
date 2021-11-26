@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const feedbackSchema = new Schema({
   classid: Number,
   subjectid: Number,
-  teacherid: Number,
+  teacher: {type:Schema.Types.ObjectId, ref: 'User'},
   unitid: Number,
   team:  {
     type: String,
@@ -19,7 +19,7 @@ const feedbackSchema = new Schema({
     enum: ["Pending", "Reviewed", "Resolved"],
     default: "Pending",
   },
-  comments: String,
+  comments: {type: String, default:''},
 });
 
 const Feedback = mongoose.model("Feedback", feedbackSchema);

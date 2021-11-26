@@ -25,7 +25,7 @@ const getContent = async (req, res) => {
         if(subjectid) query.subjectid = subjectid;
         if(unitid) query.unitid = unitid;
         console.log('getContent:: query ', query);
-        let content = await Content.find(query);
+        let content = await Content.find(query).populate('teacher');
         res.status(200).send({success:true, data: content});
     }catch(err){
         console.log('getContent:: error is ', err);
@@ -39,14 +39,15 @@ const postContent = async (req, res) => {
         const contentPayload = {
             classid: req.body.classid,
             subjectid: req.body.subjectid,
-            teacherid: req.body.teacherid,
+            teacher: req.body.teacherid,
             unitid: req.body.unitid,
             content: req.body.content,
             imageFileName: req.file ? req.file.path : ''
         }
+        console.log('*****', contentPayload)
         const content = new Content(contentPayload);
         await content.save();
-        res.status(200).send({success:true, message: "Content Created!"});
+        return res.status(200).send({success:true, message: "Content Created!"});
     }catch(err){
         console.log('postContent:: error is ', err);
         res.status(500).send({success:true, message: "Something went wrong"});
