@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { feedbackRouter, contentRouter, userRouter } = require("./routes");
 const { filters } = require("./config");
+const cors = require('cors');
+
 
 require("./db");
 
@@ -11,6 +13,9 @@ const PORT = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cors())
+
 
 app.use(express.static("uploads"));
 
