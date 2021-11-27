@@ -1,9 +1,20 @@
 const {Feedback} = require('../model');
 
+const getAllFeedbacks = async (req, res) => {
+    try{
+        const query = {}
+        console.log('getFeedbacks:: query ', query);
+        let feedbacks = await Feedback.find(query).populate('teacher');
+        res.status(200).json({success:true, data: feedbacks});
+    }catch(err){
+        console.log('error is ', err);
+        res.send('Something went wrong');
+    }
+};
+
 const getFeedback = async (req, res) => {
     try{
         const teacherid = req.params.teacherid;
-        const feedbackid = req.query.id;
         const query = {teacher:teacherid}
         console.log('getFeedback:: query ', query);
         let feedbacks = await Feedback.find(query).populate('teacher');
@@ -35,7 +46,26 @@ const postFeedback = async (req, res) => {
     }
 };
 
+const feedbackUpdate = async (req, res) => {
+    try{
+        const feedbackId = req.body.feedbackid;
+        console.log('postFeedback:: ', req.body);
+        const payloadToUpdate = {};
+        if(req.body.comments) payloadToUpdate.comments = req.body.comments;
+        if(req.body.resolved) payloadToUpdate.status = "Resolved";
+        if(req.body.reviewed) payloadToUpdate.status = "Reviewed";
+        await Feedback.updateOne({_id:feedbackId}, payloadToUpdate);
+        res.status(200).send({success:true, message: "Feedback Updated"});
+    }catch(err){
+        console.log('error is ', err);
+        res.send('Something went wrong');
+    }
+};
+
+
 module.exports = {
+    getAllFeedbacks,
     getFeedback,
-    postFeedback
+    postFeedback,
+    feedbackUpdate
 }

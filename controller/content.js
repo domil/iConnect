@@ -44,7 +44,6 @@ const postContent = async (req, res) => {
             content: req.body.content,
             imageFileName: req.file ? req.file.path : ''
         }
-        console.log('*****', contentPayload)
         const content = new Content(contentPayload);
         await content.save();
         return res.status(200).send({ success: true, message: "Content Created!" });
