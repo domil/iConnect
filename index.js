@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const { feedbackRouter, contentRouter, userRouter, roomsRouter } = require("./routes");
 const { filters } = require("./config");
 const cors = require('cors');
-
+var path = require('path');
 
 require("./db");
 
@@ -23,6 +23,7 @@ app.use("/feedback", feedbackRouter);
 app.use("/content", contentRouter);
 app.use("/user", userRouter);
 app.use("/rooms", roomsRouter);
+app.use(express.static(path.join(__dirname, 'public-flutter')));
 
 app.get("/", (req, res) => {
   res.send("Server is up and running");
