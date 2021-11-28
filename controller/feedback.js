@@ -1,5 +1,25 @@
 const {Feedback} = require('../model');
 
+const { imageStore } = require('../lib');
+
+const multer = require('multer');
+
+
+const uploadImg = multer({
+    storage: imageStore,
+    limits: {
+        fileSize: 1000000, // 1000000 Bytes = 1 MB
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(png|jpg)$/)) {
+            // upload only png and jpg format
+            return cb(new Error('Please upload a Image'))
+        }
+        cb(undefined, true)
+    }
+}).none();
+
+
 const getAllFeedbacks = async (req, res) => {
     try{
         const query = {}
@@ -67,5 +87,6 @@ module.exports = {
     getAllFeedbacks,
     getFeedback,
     postFeedback,
-    feedbackUpdate
+    feedbackUpdate,
+    uploadImg
 }
